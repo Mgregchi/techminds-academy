@@ -1,0 +1,28 @@
+form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: start;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+button, input {
+    margin-block: 5px;
+}
+input[type="range"].red {
+    accent-color: red;
+}
+
+input[type="range"].green {
+    accent-color: green;
+}
+
+input[type="range"].blue {
+    accent-color: blue;
+}
