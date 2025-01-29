@@ -59,3 +59,9 @@ A simple voting system that checks eligibility based on age and nationality.
 
 - **Files**: 
   - [voting-system/index.php](voting-system/index.php)
+
+
+```
+    import os
+    os.system('clear')
+```
