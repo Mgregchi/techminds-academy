@@ -1,0 +1,30 @@
+form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-between; */
+    gap: 4px;
+}
+.w-100 {
+    width: 100%;
+}
+.grid {
+    display: grid;
+}
+.col {
+    display: flex;
+    flex-direction: column;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: start;
+}
+button, input {
+    margin-block: 5px;
+}
