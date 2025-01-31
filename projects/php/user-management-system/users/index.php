@@ -6,7 +6,7 @@
     <body>
         <div class="container">
             <?php
-                include "../connect.php";
+                include "../../connect.php";
                 $sql = "SELECT * FROM users";
                 $result = $conn->query($sql);
               
