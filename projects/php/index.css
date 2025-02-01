@@ -6,8 +6,13 @@ form {
 .row {
     display: flex;
     flex-direction: row;
-    /* justify-content: space-between; */
     gap: 4px;
+    flex-wrap: wrap;
+}
+
+.row > * {
+    flex: 1 1 calc(25% - 4px); /* 4 items per row with gap */
+    box-sizing: border-box;
 }
 .w-100 {
     width: 100%;
