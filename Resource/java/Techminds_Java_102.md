@@ -930,6 +930,185 @@ req.getRequestDispatcher("/users.jsp").forward(req, res);
 
 ---
 
+# **Lesson 7B: JSTL Includes and Custom Tags**
+
+### 🧠 What You Will Learn
+- How to include other JSP files using JSTL
+- Creating reusable custom tags
+- Using JSTL for better modularity in your web app
+- Practical examples of includes and custom tags
+- Best practices for using JSTL effectively
+
+---
+
+## Introduction
+
+In building web applications with JSP, managing repetitive code and improving modularity is crucial for maintainability. JSTL (Jakarta Standard Tag Library) provides powerful tags that help you include reusable content and create custom tags, making your JSP pages cleaner and more manageable.
+
+---
+
+## 1. Including JSPs using JSTL `<c:import>`
+
+JSTL provides the `<c:import>` tag to include content from other JSPs or external resources.
+
+### Syntax:
+
+```jsp
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:import url="/WEB-INF/views/includes/header.jsp" />
+```
+
+### Example:
+
+Suppose you have a common header stored in `header.jsp`:
+
+```jsp
+<!-- /WEB-INF/views/includes/header.jsp -->
+<header>
+  <h1>Welcome to My Website</h1>
+  <nav>
+    <a href="${pageContext.request.contextPath}/home">Home</a>
+    <a href="${pageContext.request.contextPath}/about">About</a>
+  </nav>
+</header>
+```
+
+Or for css and common assets:
+```jsp
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<head>
+    <meta charset="UTF-8" />
+    <title><c:out value="${pageTitle}" default="My App" /></title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/styles.css" />
+</head>
+
+```
+
+You can include it in other JSPs:
+
+```jsp
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+  <body>
+    <c:import url="/WEB-INF/views/includes/header.jsp" />
+    <main>
+      <!-- Page-specific content -->
+    </main>
+  </body>
+</html>
+```
+
+---
+
+## 2. Including JSPs using `<jsp:include>`
+
+Alternatively, you can use the JSP directive `<jsp:include>` to include JSP fragments dynamically.
+
+### Syntax:
+
+```jsp
+<jsp:include page="/WEB-INF/views/includes/footer.jsp" />
+```
+
+This inclusion happens **at request time**, which means any changes in the included file are immediately reflected.
+
+---
+
+## 3. Creating Custom Tags
+
+Custom tags allow you to encapsulate complex logic or markup in a reusable way.
+
+### Steps to create custom tags:
+
+1. **Create a Tag Handler Class:** Java class extending `SimpleTagSupport`.
+2. **Create Tag Library Descriptor (TLD):** XML file describing your tag.
+3. **Use the tag in JSP pages** by declaring the tag library.
+
+---
+
+### Example: A simple greeting tag
+
+**Tag Handler Class:**
+
+```java
+package org.example.tags;
+
+import jakarta.servlet.jsp.tagext.SimpleTagSupport;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspWriter;
+import java.io.IOException;
+
+public class GreetingTag extends SimpleTagSupport {
+    private String name;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void doTag() throws JspException, IOException {
+        JspWriter out = getJspContext().getOut();
+        out.print("Hello, " + name + "!");
+    }
+}
+```
+
+**TLD File (e.g., `/WEB-INF/tlds/example.tld`):**
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="https://jakarta.ee/xml/ns/jakartaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                            https://jakarta.ee/xml/ns/jakartaee/web-jsptaglibrary_3_0.xsd"
+        version="3.0">
+
+    <tlib-version>1.0</tlib-version>
+    <short-name>example</short-name>
+    <uri>http://example.org/tags</uri>
+
+    <tag>
+        <name>greeting</name>
+        <tag-class>org.example.tags.GreetingTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>
+```
+
+**Using the Tag in JSP:**
+
+```jsp
+<%@ taglib prefix="ex" uri="http://example.org/tags" %>
+
+<ex:greeting name="John" />
+```
+
+---
+
+## 4. Best Practices for Using JSTL and Custom Tags
+
+- **Use includes** to avoid code duplication for headers, footers, and navigation.
+- **Avoid scriptlets**; prefer JSTL and EL expressions for logic.
+- **Create custom tags** for repeated, complex logic or markup.
+- Keep TLD files organized under `/WEB-INF/tlds/`.
+- Always use context path (`${pageContext.request.contextPath}`) when referencing static resources.
+
+---
+
+## 5. Summary
+
+- JSTL `<c:import>` and `<jsp:include>` help modularize JSP pages by including reusable content.
+- Custom tags encapsulate reusable logic and improve code clarity.
+- Following these practices leads to cleaner, maintainable JSP applications.
+
+---
+
 # **Lesson 8: Connecting to a Database (JDBC + Servlet)**
 
 ### 🧠 What You Will Learn

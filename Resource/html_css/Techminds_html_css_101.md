@@ -1,5 +1,3 @@
----
-
 ### **HTML Handbook for Beginners**
 
 #### **1. What is HTML?**
